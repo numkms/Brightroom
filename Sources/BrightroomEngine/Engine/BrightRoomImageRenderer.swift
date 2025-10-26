@@ -114,7 +114,7 @@ public final class BrightRoomImageRenderer {
 
   }
 
-  private static let queue = DispatchQueue.init(label: "app.muukii.Pixel.renderer")
+  private let queue: DispatchQueue
 
   public enum Resolution {
     case full
@@ -132,9 +132,10 @@ public final class BrightRoomImageRenderer {
 
   public var edit: Edit
 
-  public init(source: ImageSource, orientation: CGImagePropertyOrientation) {
+  public init(source: ImageSource, orientation: CGImagePropertyOrientation, queue: DispatchQueue = DispatchQueue.init(label: "app.muukii.Pixel.renderer")) {
     self.source = source
     self.orientation = orientation
+    self.queue = queue
     edit = .init()
   }
 
@@ -151,7 +152,7 @@ public final class BrightRoomImageRenderer {
       Result<Rendered, Error>
     ) -> Void
   ) {
-    type(of: self).queue.async {
+    queue.async {
       do {
         let rendered = try self.render(options: options)
         callbackQueue.async {
