@@ -24,7 +24,7 @@ import CoreImage
 extension EditingStack {
   // TODO: Consider more effective shape
   public struct Edit: Equatable {
-    func makeFilters() -> [AnyFilter] {
+    public func makeFilters() -> [AnyFilter] {
       return filters.makeFilters()
     }
     
